@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const background = document.querySelector('.background-animation');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     const codeSnippets = [
         "if (item == null) return NotFound();",
@@ -28,6 +29,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxBlocks = prefersReducedMotion ? 8 : 20;
     const blockInterval = prefersReducedMotion ? 3000 : 1200;
 
+    const codeToggle = document.getElementById('codeToggle');
+    const storedCodeEnabled = localStorage.getItem('codeBlocksEnabled');
+    // Sempre iniciar desabilitado em mobile (mesmo que já tenha sido habilitado antes)
+    let codeBlocksEnabled = isMobile ? false : (storedCodeEnabled === null ? true : storedCodeEnabled === 'true');
+
+    const setCodeToggle = (enabled) => {
+        codeBlocksEnabled = enabled;
+        if (codeToggle) {
+            codeToggle.textContent = enabled ? '🧩' : '🚫';
+            codeToggle.setAttribute('aria-pressed', String(enabled));
+        }
+        localStorage.setItem('codeBlocksEnabled', String(enabled));
+        if (!enabled) {
+            blocks.forEach(b => b.el.remove());
+            blocks.length = 0;
+        }
+    };
+
+    if (codeToggle) {
+        codeToggle.addEventListener('click', () => setCodeToggle(!codeBlocksEnabled));
+    }
+
 
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -53,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         block.style.border = `1px solid ${color}`;
         block.style.color = color;
 
-        
+
         background.appendChild(block);
 
         const rect = block.getBoundingClientRect();
@@ -64,9 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const y = (window.innerHeight * 0.25) + Math.random() * (window.innerHeight * 0.15); 
 
         const vx = prefersReducedMotion ? 0 : (Math.random() - 0.5) * 80; 
-        const vy = prefersReducedMotion ? 0 : 80 + Math.random() * 80; 
+        const vy = prefersReducedMotion ? 0 : 80 + Math.random() * 80;
         const rot = Math.random() * 360;
-        const vrot = prefersReducedMotion ? 0 : (Math.random() - 0.5) * 180;
+        const vrot = prefersReducedMotion ? 0 : (Math.random() - 0.5) * 180; 
 
         blocks.push({ el: block, x, y, vx, vy, rot, vrot, w: width, h: height });
     }
@@ -79,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
             b.y += b.vy * dt;
             b.rot += b.vrot * dt;
 
-
+          
             if (b.x < 0) {
                 b.x = 0;
                 b.vx *= -0.6;
@@ -118,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!prefersReducedMotion) {
         setInterval(() => {
-            if (blocks.length < maxBlocks) createCodeBlock();
+            if (codeBlocksEnabled && blocks.length < maxBlocks) createCodeBlock();
         }, blockInterval);
     }
     
