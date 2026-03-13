@@ -17,4 +17,3 @@ Sou estudante de Análise e Desenvolvimento de Sistemas, com foco em C# e desenv
 
 - GitHub: [JonatannHenrique](https://github.com/JonatannHenrique)
 - LinkedIn: [Jonatan Henrique](https://www.linkedin.com/in/jonatanhenriquee)
-- E-mail: [Jonatan Henrique](jonatanhenrique4141@gmail.com)
