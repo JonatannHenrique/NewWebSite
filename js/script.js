@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxBlocks = prefersReducedMotion ? 8 : 20;
     const blockInterval = prefersReducedMotion ? 3000 : 1200;
 
-    // Theme toggle (dark/light)
+
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.body.dataset.theme = savedTheme;
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         block.style.border = `1px solid ${color}`;
         block.style.color = color;
 
-        // Start off screen (top)
+        
         background.appendChild(block);
 
         const rect = block.getBoundingClientRect();
@@ -61,12 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const height = rect.height;
 
         const x = Math.random() * Math.max(0, window.innerWidth - width);
-        const y = (window.innerHeight * 0.25) + Math.random() * (window.innerHeight * 0.15); // spawn mais embaixo
+        const y = (window.innerHeight * 0.25) + Math.random() * (window.innerHeight * 0.15); 
 
-        const vx = prefersReducedMotion ? 0 : (Math.random() - 0.5) * 80; // horizontal speed px/s
-        const vy = prefersReducedMotion ? 0 : 80 + Math.random() * 80; // vertical speed px/s
+        const vx = prefersReducedMotion ? 0 : (Math.random() - 0.5) * 80; 
+        const vy = prefersReducedMotion ? 0 : 80 + Math.random() * 80; 
         const rot = Math.random() * 360;
-        const vrot = prefersReducedMotion ? 0 : (Math.random() - 0.5) * 180; // deg/s
+        const vrot = prefersReducedMotion ? 0 : (Math.random() - 0.5) * 180;
 
         blocks.push({ el: block, x, y, vx, vy, rot, vrot, w: width, h: height });
     }
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             b.y += b.vy * dt;
             b.rot += b.vrot * dt;
 
-            // Wall bounce
+
             if (b.x < 0) {
                 b.x = 0;
                 b.vx *= -0.6;
